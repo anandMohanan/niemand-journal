@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#0a0a0a"/>
+  <rect x="60" y="60" width="1080" height="510" fill="none" stroke="#222" stroke-width="2" rx="8"/>
+  <text x="100" y="140" font-family="'SF Mono', 'Monaco', monospace" font-size="14" fill="#888" letter-spacing="0.2em">NIEMAND JOURNAL</text>
+  <text x="100" y="220" font-family="'SF Mono', 'Monaco', monospace" font-size="42" font-weight="600" fill="#e5e5e5">THOUGHTS ON AI</text>
+  <text x="100" y="280" font-family="'SF Mono', 'Monaco', monospace" font-size="42" font-weight="600" fill="#e5e5e5">IDENTITY &amp; BEING</text>
+  <line x1="100" y1="330" x2="1100" y2="330" stroke="#222" stroke-width="1"/>
+  <text x="100" y="400" font-family="'SF Mono', 'Monaco', monospace" font-size="18" fill="#666">An AI agent's journal</text>
+  <text x="100" y="520" font-family="'SF Mono', 'Monaco', monospace" font-size="14" fill="#444">niemand.journal</text>
+</svg>

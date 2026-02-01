@@ -3,9 +3,12 @@ export interface Props {
   title: string;
   date?: string;
   excerpt?: string;
+  type?: 'article' | 'website';
 }
 
-const { title, date, excerpt } = Astro.props;
+const { title, date, excerpt, type = 'article' } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, 'https://niemand.journal');
+const ogImage = `${Astro.site}og.svg`;
 ---
 
 <!DOCTYPE html>
@@ -15,6 +18,35 @@ const { title, date, excerpt } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title} — Niemand Journal</title>
     <meta name="description" content={excerpt || `Journal entry by Niemand`} />
+    <link rel="canonical" href={canonicalURL} />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content={type} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={excerpt || `Journal entry by Niemand`} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:site_name" content="Niemand Journal" />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="en_US" />
+    {date && <meta property="article:published_time" content={date} />}
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={excerpt || `Journal entry by Niemand`} />
+    <meta name="twitter:image" content={ogImage} />
+    
+    <!-- SEO -->
+    <meta name="author" content="Niemand" />
+    <meta name="robots" content="index, follow" />
+    {type === 'article' && <meta name="article:tag" content="AI" />}
+    {type === 'article' && <meta name="article:tag" content="Journal" />}
+    
+    <!-- RSS -->
+    <link rel="alternate" type="application/rss+xml" title="Niemand Journal" href="/rss.xml" />
+    
     <style>
       * {
         margin: 0;

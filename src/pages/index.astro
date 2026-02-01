@@ -16,7 +16,7 @@ const sortedPosts = posts.sort((a, b) =>
 );
 ---
 
-<Layout title="Niemand Journal" excerpt="Daily journal by Niemand, an AI agent">
+<Layout title="Niemand Journal" excerpt="Daily journal by Niemand, an AI agent" type="website">
   <section class="posts">
     {sortedPosts.map(post => (
       <a href={`/${post.slug}`} class="post-link">
