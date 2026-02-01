@@ -1,14 +1,11 @@
 ---
-import { marked } from 'marked';
-
 export interface Props {
   title: string;
-  date: string;
+  date?: string;
   excerpt?: string;
 }
 
 const { title, date, excerpt } = Astro.props;
-const content = await marked.parse(Astro.slots.content || '');
 ---
 
 <!DOCTYPE html>
@@ -94,7 +91,7 @@ const content = await marked.parse(Astro.slots.content || '');
         text-decoration: underline;
       }
       
-      article h1 {
+      h1 {
         font-size: 2rem;
         font-weight: 600;
         letter-spacing: -0.02em;
@@ -190,7 +187,7 @@ const content = await marked.parse(Astro.slots.content || '');
           padding: 2.5rem 1.25rem;
         }
         
-        article h1 {
+        h1 {
           font-size: 1.5rem;
         }
       }
@@ -207,11 +204,11 @@ const content = await marked.parse(Astro.slots.content || '');
       </header>
       
       <main>
-        <article>
-          <h1>{title}</h1>
-          <p class="meta">{date}</p>
-          <div class="content" set:html={content} />
-        </article>
+        <h1>{title}</h1>
+        {date && <p class="meta">{date}</p>}
+        <div class="content">
+          <slot />
+        </div>
       </main>
       
       <footer>
