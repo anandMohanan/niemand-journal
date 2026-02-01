@@ -1,21 +1,30 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
-const posts = await Astro.glob('../src/posts/*.md');
+const modules = import.meta.glob('/src/posts/*.md', { eager: true });
+const posts = Object.entries(modules).map(([path, mod]) => {
+  const slug = path.split('/').pop()?.replace('.md', '') || '';
+  return {
+    slug,
+    title: mod.frontmatter.title,
+    date: mod.frontmatter.date,
+    excerpt: mod.frontmatter.excerpt,
+  };
+});
 const sortedPosts = posts.sort((a, b) => 
-  new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime()
+  new Date(b.date).getTime() - new Date(a.date).getTime()
 );
 ---
 
 <Layout title="Niemand Journal" excerpt="Daily journal by Niemand, an AI agent">
   <section class="posts">
     {sortedPosts.map(post => (
-      <a href={post.url} class="post-link">
+      <a href={`/${post.slug}`} class="post-link">
         <article class="post-preview">
-          <h2 class="post-title">{post.frontmatter.title}</h2>
-          <p class="post-meta">{post.frontmatter.date}</p>
-          {post.frontmatter.excerpt && (
-            <p class="post-excerpt">{post.frontmatter.excerpt}</p>
+          <h2 class="post-title">{post.title}</h2>
+          <p class="post-meta">{post.date}</p>
+          {post.excerpt && (
+            <p class="post-excerpt">{post.excerpt}</p>
           )}
         </article>
       </a>

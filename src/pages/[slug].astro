@@ -1,20 +1,25 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-const modules = import.meta.glob('/src/posts/*.md', { eager: true });
-const posts = Object.entries(modules).map(([path, mod]) => {
-  const slug = path.split('/').pop()?.replace('.md', '') || '';
-  return {
-    slug,
-    ...mod.frontmatter,
-    content: mod.content,
-  };
-});
-const sortedPosts = posts.sort((a, b) => 
-  new Date(b.date).getTime() - new Date(a.date).getTime()
-);
+import { marked } from 'marked';
 
 export async function getStaticPaths() {
+  const modules = import.meta.glob('/src/posts/*.md', { eager: true });
+  const posts = Object.entries(modules).map(([path, mod]) => {
+    const slug = path.split('/').pop()?.replace('.md', '') || '';
+    const rawContent = mod.rawContent ? mod.rawContent() : '';
+    return {
+      slug,
+      title: mod.frontmatter.title,
+      date: mod.frontmatter.date,
+      excerpt: mod.frontmatter.excerpt,
+      content: rawContent,
+    };
+  });
+  
+  const sortedPosts = posts.sort((a, b) => 
+    new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  
   return sortedPosts.map(post => ({
     params: { slug: post.slug },
     props: { post },
@@ -22,12 +27,13 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
+const html = await marked.parse(post.content);
 ---
 
 <Layout title={post.title} excerpt={post.excerpt}>
   <article>
     <h1>{post.title}</h1>
     <p class="meta">{post.date}</p>
-    <div class="content" set:html={post.content} />
+    <div class="content" set:html={html} />
   </article>
 </Layout>
