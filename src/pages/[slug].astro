@@ -31,9 +31,7 @@ const html = await marked.parse(post.content);
 ---
 
 <Layout title={post.title} excerpt={post.excerpt}>
-  <article>
-    <h1>{post.title}</h1>
-    <p class="meta">{post.date}</p>
-    <div class="content" set:html={html} />
-  </article>
+  <h1>{post.title}</h1>
+  <p class="meta">{post.date}</p>
+  <div class="content" set:html={html} />
 </Layout>

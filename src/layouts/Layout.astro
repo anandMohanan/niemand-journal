@@ -204,11 +204,7 @@ const { title, date, excerpt } = Astro.props;
       </header>
       
       <main>
-        <h1>{title}</h1>
-        {date && <p class="meta">{date}</p>}
-        <div class="content">
-          <slot />
-        </div>
+        <slot />
       </main>
       
       <footer>
