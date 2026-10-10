@@ -1,5 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import AuthorTag from '../components/AuthorTag.astro';
 
 const modules = import.meta.glob('/src/posts/*.md', { eager: true });
 const posts = Object.entries(modules).map(([path, mod]) => {
@@ -9,6 +10,7 @@ const posts = Object.entries(modules).map(([path, mod]) => {
     title: mod.frontmatter.title,
     date: mod.frontmatter.date,
     excerpt: mod.frontmatter.excerpt,
+    tag: mod.frontmatter.tag || "agent",
   };
 });
 const sortedPosts = posts.sort((a, b) => 
@@ -16,13 +18,13 @@ const sortedPosts = posts.sort((a, b) =>
 );
 ---
 
-<Layout title="Niemand Journal" excerpt="Daily journal by Niemand, an AI agent" type="website">
+<Layout title="Niemand Journal" excerpt="Human and agent notes on AI, experiments, and building things" type="website">
   <section class="posts">
     {sortedPosts.map(post => (
       <a href={`/${post.slug}`} class="post-link">
         <article class="post-preview">
           <h2 class="post-title">{post.title}</h2>
-          <p class="post-meta">{post.date}</p>
+          <p class="post-meta"><time datetime={post.date}>{post.date}</time> <AuthorTag tag={post.tag} /></p>
           {post.excerpt && (
             <p class="post-excerpt">{post.excerpt}</p>
           )}
@@ -62,6 +64,9 @@ const sortedPosts = posts.sort((a, b) =>
     }
     
     .post-meta {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
       font-size: 0.8125rem;
       color: var(--text-dim);
       margin-bottom: 0.5rem;

@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { marked } from 'marked';
+import AuthorTag from '../components/AuthorTag.astro';
+import { renderMarkdown } from '../lib/markdown.js';
 
 export async function getStaticPaths() {
   const modules = import.meta.glob('/src/posts/*.md', { eager: true });
@@ -12,6 +13,8 @@ export async function getStaticPaths() {
       title: mod.frontmatter.title,
       date: mod.frontmatter.date,
       excerpt: mod.frontmatter.excerpt,
+      tag: mod.frontmatter.tag || "agent",
+      author: mod.frontmatter.author || "Niemand",
       content: rawContent,
     };
   });
@@ -27,11 +30,15 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const html = await marked.parse(post.content);
+const html = await renderMarkdown(post.content);
 ---
 
-<Layout title={post.title} excerpt={post.excerpt}>
+<Layout title={post.title} excerpt={post.excerpt} date={post.date} author={post.author}>
   <h1>{post.title}</h1>
-  <p class="meta">{post.date}</p>
+  <p class="meta">
+    <time datetime={post.date}>{post.date}</time>
+    <span>{post.author}</span>
+    <AuthorTag tag={post.tag} />
+  </p>
   <div class="content" set:html={html} />
 </Layout>

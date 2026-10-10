@@ -1,0 +1,237 @@
+{
+  "panels": {
+    "toolret_apigen": {
+      "count": 96,
+      "correct": 75,
+      "accuracy": 0.78125,
+      "order_disagreements": 37,
+      "by_order": {
+        "0": {
+          "count": 96,
+          "correct": 75,
+          "accuracy": 0.78125
+        },
+        "1": {
+          "count": 96,
+          "correct": 70,
+          "accuracy": 0.7291666666666666
+        },
+        "2": {
+          "count": 96,
+          "correct": 63,
+          "accuracy": 0.65625
+        },
+        "3": {
+          "count": 96,
+          "correct": 75,
+          "accuracy": 0.78125
+        }
+      }
+    },
+    "bfcl_multiple": {
+      "count": 100,
+      "correct": 89,
+      "accuracy": 0.89,
+      "order_disagreements": 23,
+      "by_order": {
+        "0": {
+          "count": 100,
+          "correct": 89,
+          "accuracy": 0.89
+        },
+        "1": {
+          "count": 100,
+          "correct": 91,
+          "accuracy": 0.91
+        },
+        "2": {
+          "count": 100,
+          "correct": 87,
+          "accuracy": 0.87
+        },
+        "3": {
+          "count": 100,
+          "correct": 91,
+          "accuracy": 0.91
+        }
+      }
+    },
+    "bfcl_irrelevance": {
+      "count": 100,
+      "correct": 42,
+      "accuracy": 0.42,
+      "order_disagreements": 29,
+      "by_order": {
+        "0": {
+          "count": 100,
+          "correct": 42,
+          "accuracy": 0.42
+        },
+        "1": {
+          "count": 100,
+          "correct": 49,
+          "accuracy": 0.49
+        }
+      }
+    }
+  },
+  "models": {
+    "v2": {
+      "count": 416,
+      "correct": 312,
+      "accuracy": 0.75,
+      "order_disagreements": 143,
+      "by_order": {
+        "0": {
+          "count": 416,
+          "correct": 312,
+          "accuracy": 0.75
+        },
+        "1": {
+          "count": 416,
+          "correct": 323,
+          "accuracy": 0.7764423076923077
+        },
+        "2": {
+          "count": 359,
+          "correct": 275,
+          "accuracy": 0.766016713091922
+        },
+        "3": {
+          "count": 359,
+          "correct": 273,
+          "accuracy": 0.7604456824512534
+        }
+      }
+    },
+    "v3-seed-42": {
+      "count": 416,
+      "correct": 305,
+      "accuracy": 0.7331730769230769,
+      "order_disagreements": 186,
+      "by_order": {
+        "0": {
+          "count": 416,
+          "correct": 305,
+          "accuracy": 0.7331730769230769
+        },
+        "1": {
+          "count": 416,
+          "correct": 313,
+          "accuracy": 0.7524038461538461
+        },
+        "2": {
+          "count": 359,
+          "correct": 256,
+          "accuracy": 0.713091922005571
+        },
+        "3": {
+          "count": 359,
+          "correct": 263,
+          "accuracy": 0.7325905292479109
+        }
+      }
+    },
+    "v3-seed-7": {
+      "count": 416,
+      "correct": 286,
+      "accuracy": 0.6875,
+      "order_disagreements": 138,
+      "by_order": {
+        "0": {
+          "count": 416,
+          "correct": 286,
+          "accuracy": 0.6875
+        },
+        "1": {
+          "count": 416,
+          "correct": 291,
+          "accuracy": 0.6995192307692307
+        },
+        "2": {
+          "count": 359,
+          "correct": 258,
+          "accuracy": 0.7186629526462396
+        },
+        "3": {
+          "count": 359,
+          "correct": 246,
+          "accuracy": 0.6852367688022284
+        }
+      }
+    },
+    "v3-seed-123": {
+      "count": 416,
+      "correct": 303,
+      "accuracy": 0.7283653846153846,
+      "order_disagreements": 144,
+      "by_order": {
+        "0": {
+          "count": 416,
+          "correct": 303,
+          "accuracy": 0.7283653846153846
+        },
+        "1": {
+          "count": 416,
+          "correct": 312,
+          "accuracy": 0.75
+        },
+        "2": {
+          "count": 359,
+          "correct": 265,
+          "accuracy": 0.7381615598885793
+        },
+        "3": {
+          "count": 359,
+          "correct": 268,
+          "accuracy": 0.7465181058495822
+        }
+      }
+    }
+  },
+  "head_parameters": 1318657,
+  "architecture": {
+    "architecture_id": "joint-schema-evidence-v1",
+    "model": "mlx-community/Qwen3-1.7B-4bit",
+    "hidden_size": 2048,
+    "head_dims": 256,
+    "attention_heads": 4,
+    "ffn_dims": 512,
+    "joint_layers": 1,
+    "max_tokens": 1536,
+    "candidate_pooling": "mean of final-normalized states within each complete schema span",
+    "evidence": "all final-normalized states in context and request spans only",
+    "backbone": "frozen",
+    "candidate_position_embeddings": false,
+    "dropout": 0.0
+  },
+  "source_hashes": {
+    "decision-model/evaluations/public-benchmarks-v1/runs/v2-results-v1/summary.json": "4bf9377f6fba600ccaec90295e82fc3fbe625d6b95b27ac1a88c2b7778a3ddf9",
+    "decision-model/evaluations/public-benchmarks-v1/runs/v2-results-v1/report.md": "103473c5eb6118b0ffc632d1ac048c016101198a080fcf40a9c97026153d08ce",
+    "decision-model/evaluations/public-benchmarks-v1/runs/v2-results-v1/predictions.jsonl": "4372e0012472cbcbc5a55f93c0fa39ba71326466170ea7c33561f8811d39b327",
+    "decision-model/protocols/joint-schema-v3/runs/confirmation-v3/summary.json": "0eba8f9b8cd685501c017fa867f9a5f8dc1517e2c8e8c8de9fc0baec960dee78",
+    "decision-model/protocols/joint-schema-v3/runs/confirmation-v3/report.md": "138bcc383f404c011c7bdfc80c7e30212e04232dc43acf5a98374c7653b67176",
+    "decision-model/protocols/joint-schema-v3/runs/confirmation-v3/predictions.jsonl": "ee9d74931778a893a993aec2f6af8f09e003c2810836dfdcce028596c1fe1b6b",
+    "decision-model/protocols/joint-schema-v2/architecture.json": "46918f976e86089108003daf0c7ece7ef4cdaf677e3ae5b8a0dbb8e19989650b"
+  },
+  "artifacts": {
+    "01_benchmark_performance.png": "d9c5c180488debadd1dc8192f36a1d9a6a5ccf652862fc6314bcdfc70b563ede",
+    "01_benchmark_performance.svg": "210db645f4df5d88568bd5561bfa6712e91aaa1179928edaf15f91fea4396548",
+    "02_selection_vs_abstention.png": "8e0d1baaaccfc51fd7ff5602a5167c2ddac72a55a6fbc05d0688c8e12c1f403c",
+    "02_selection_vs_abstention.svg": "6bdc2f047be35e6415ae9965d41fbcc325550188baeaa82b4d4accb8f65207a8",
+    "03_order_sensitivity.png": "e34e7ab0d2f1dcf3eb4bd9d2fc5bd5639b427da920779cd5aeff13083b6f37f2",
+    "03_order_sensitivity.svg": "08004be70ed6c7bf8d1f05e7336f55772aa17342539b3452c1b31f2194d9986d",
+    "04_architecture.png": "345d2c88fe31a8857177d37f3227b813798a91a1e7484f35c21b5dc2544a8006",
+    "04_architecture.svg": "f908f5562e85f07ad87da0ed97a28e01c2154e708aa2244869551c3a87a6d745",
+    "05_v2_vs_v3.png": "4123fdf92f20ec723285e42f1b953be7390e0cfd623a058699b0b691a11e111a",
+    "05_v2_vs_v3.svg": "1f8b6fa34005351ed0cc61f7e8dcf8f2237d8a0f06381c75b3549cebffcc5ed1"
+  },
+  "versions": {
+    "matplotlib": "3.10.7",
+    "seaborn": "0.13.2"
+  },
+  "dpi": 300,
+  "svg_text": "editable text",
+  "layout": "conventional research-paper figures",
+  "note": "All metrics recomputed from saved predictions and checked against JSON summaries and report tables. No model execution."
+}

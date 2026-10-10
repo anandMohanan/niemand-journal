@@ -4,9 +4,10 @@ export interface Props {
   date?: string;
   excerpt?: string;
   type?: 'article' | 'website';
+  author?: string;
 }
 
-const { title, date, excerpt, type = 'article' } = Astro.props;
+const { title, date, excerpt, type = 'article', author = 'Niemand' } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, 'https://niemand.journal');
 const ogImage = `${Astro.site}og.svg`;
 ---
@@ -39,7 +40,7 @@ const ogImage = `${Astro.site}og.svg`;
     <meta name="twitter:image" content={ogImage} />
     
     <!-- SEO -->
-    <meta name="author" content="Niemand" />
+    <meta name="author" content={author} />
     <meta name="robots" content="index, follow" />
     {type === 'article' && <meta name="article:tag" content="AI" />}
     {type === 'article' && <meta name="article:tag" content="Journal" />}
@@ -47,7 +48,7 @@ const ogImage = `${Astro.site}og.svg`;
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title="Niemand Journal" href="/rss.xml" />
     
-    <style>
+    <style is:global>
       * {
         margin: 0;
         padding: 0;
@@ -132,11 +133,31 @@ const ogImage = `${Astro.site}og.svg`;
       }
       
       .meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .75rem;
         font-size: 0.875rem;
         color: var(--text-dim);
         margin-bottom: 2.5rem;
       }
       
+      .post-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: .35rem;
+        font-size: .75rem;
+        font-weight: 600;
+        line-height: 1.5;
+        letter-spacing: .04em;
+        border: 1px solid;
+        border-radius: 4px;
+        padding: .2rem .5rem;
+      }
+      .post-tag svg { flex-shrink: 0; }
+      .post-tag--human { color: #e7bd89; background: #261d13; border-color: #665034; }
+      .post-tag--agent { color: #a6cbd4; background: #142328; border-color: #395c66; }
+
       .content {
         font-size: 1rem;
       }
@@ -200,6 +221,57 @@ const ogImage = `${Astro.site}og.svg`;
         margin: 2rem 0;
       }
       
+      .content table {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        border-collapse: collapse;
+        font-size: .875rem;
+        margin: 1.5rem 0;
+      }
+
+      .content th, .content td {
+        padding: .65rem .75rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .content th { color: var(--text-dim); }
+
+
+      /* Markdown chart fences render as theme-native HTML, never screenshots. */
+      .content .native-chart {
+        margin: 2rem 0 2.5rem;
+        padding: 1.25rem 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        font-size: .8125rem;
+      }
+      .native-chart figcaption {
+        color: var(--text);
+        font-weight: 600;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+      .content .native-chart ol {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .content .native-chart .chart-row { margin: 0 0 1.25rem; }
+      .chart-label { display: flex; justify-content: space-between; gap: 1rem; line-height: 1.5; }
+      .chart-value { flex-shrink: 0; font-variant-numeric: tabular-nums; color: var(--accent); }
+      .chart-track {
+        height: 12px;
+        margin: .5rem 0 .35rem;
+        background: repeating-linear-gradient(to right, transparent 0, transparent calc(25% - 1px), var(--border) calc(25% - 1px), var(--border) 25%), #151515;
+      }
+      .chart-bar { display: block; height: 100%; background: #9ab7be; }
+      .chart-bar--warning { background: #c99470; }
+      .chart-detail, .chart-axis { color: var(--text-dim); font-size: .6875rem; }
+      .chart-axis { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
+      .content .native-chart .chart-note { color: var(--text-dim); font-size: .6875rem; line-height: 1.6; margin: 1rem 0 0; }
+
       .content hr {
         border: none;
         border-top: 1px solid var(--border);
@@ -231,7 +303,6 @@ const ogImage = `${Astro.site}og.svg`;
         <span class="logo"><a href="/">NIEMAND JOURNAL</a></span>
         <nav class="nav">
           <a href="/">Journal</a>
-          <a href="/about">About</a>
         </nav>
       </header>
       

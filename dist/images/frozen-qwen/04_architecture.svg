@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="756pt" height="259.2pt" viewBox="0 0 756 259.2" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib / Seaborn; saved evaluation data only</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 259.2 
+L 756 259.2 
+L 756 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 322.84224 149.09184 
+L 627.66144 149.09184 
+L 627.66144 56.19456 
+L 322.84224 56.19456 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #f5f5f5; stroke: #737373; stroke-width: 0.7; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 33.264 135.8208 
+L 121.80672 135.8208 
+L 121.80672 79.41888 
+L 33.264 79.41888 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #ffffff; stroke: #404040; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 124.536471 107.61984 
+Q 127.252301 107.61984 129.073704 107.61984 
+" clip-path="url(#p3c502a248a)" style="fill: none; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 125.873704 106.01984 
+L 129.073704 107.61984 
+L 125.873704 109.21984 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #404040; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 132.69312 135.8208 
+L 221.23584 135.8208 
+L 221.23584 79.41888 
+L 132.69312 79.41888 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #eaf1f7; stroke: #4477aa; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 223.965591 107.61984 
+Q 226.681421 107.61984 228.502824 107.61984 
+" clip-path="url(#p3c502a248a)" style="fill: none; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 225.302824 106.01984 
+L 228.502824 107.61984 
+L 225.302824 109.21984 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #404040; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 232.12224 135.8208 
+L 320.66496 135.8208 
+L 320.66496 79.41888 
+L 232.12224 79.41888 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #ffffff; stroke: #404040; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 323.394711 107.61984 
+Q 326.110541 107.61984 327.931944 107.61984 
+" clip-path="url(#p3c502a248a)" style="fill: none; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 324.731944 106.01984 
+L 327.931944 107.61984 
+L 324.731944 109.21984 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #404040; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 331.55136 135.8208 
+L 420.09408 135.8208 
+L 420.09408 79.41888 
+L 331.55136 79.41888 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #ffffff; stroke: #404040; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 422.823831 107.61984 
+Q 425.539661 107.61984 427.361064 107.61984 
+" clip-path="url(#p3c502a248a)" style="fill: none; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 424.161064 106.01984 
+L 427.361064 107.61984 
+L 424.161064 109.21984 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #404040; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 430.98048 135.8208 
+L 519.5232 135.8208 
+L 519.5232 79.41888 
+L 430.98048 79.41888 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #ffffff; stroke: #404040; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 522.252951 107.61984 
+Q 524.968781 107.61984 526.790184 107.61984 
+" clip-path="url(#p3c502a248a)" style="fill: none; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 523.590184 106.01984 
+L 526.790184 107.61984 
+L 523.590184 109.21984 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #404040; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 530.4096 135.8208 
+L 618.95232 135.8208 
+L 618.95232 79.41888 
+L 530.4096 79.41888 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #ffffff; stroke: #404040; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 621.682071 107.61984 
+Q 624.397901 107.61984 626.219304 107.61984 
+" clip-path="url(#p3c502a248a)" style="fill: none; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+    <path d="M 623.019304 106.01984 
+L 626.219304 107.61984 
+L 623.019304 109.21984 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #404040; stroke: #404040; stroke-width: 0.8; stroke-linecap: round"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 629.83872 135.8208 
+L 718.38144 135.8208 
+L 718.38144 79.41888 
+L 629.83872 79.41888 
+z
+" clip-path="url(#p3c502a248a)" style="fill: #ffffff; stroke: #404040; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 9px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" x="475.25184" y="52.042478" transform="rotate(-0 475.25184 52.042478)">Trainable decision head (1,318,657 parameters)</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(55.359657 104.560371)">Request +</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(43.002782 115.370246)">all tool schemas</text>
+   </g>
+   <g id="text_3">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(146.852566 104.560371)">Frozen Qwen3</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(153.455339 115.370246)">1.7B · 4-bit</text>
+   </g>
+   <g id="text_4">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(246.981608 104.560371)">Hidden states</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(262.30485 115.370246)">2048D</text>
+   </g>
+   <g id="text_5">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(356.482564 104.560371)">Evidence</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(360.638931 115.370246)">routing</text>
+   </g>
+   <g id="text_6">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(447.720473 104.560371)">Joint-schema</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(449.752504 115.370246)">Transformer</text>
+   </g>
+   <g id="text_7">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(544.737718 104.560371)">Shared scores</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(552.606858 115.370246)">+ softmax</text>
+   </g>
+   <g id="text_8">
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(646.286525 104.442168)">Selected tool</text>
+    <text style="font-size: 8.5px; font-family: 'DejaVu Sans'; fill: #262626" transform="translate(655.860978 115.252043)">/ no_tool</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; fill: #4477aa" transform="translate(155.275105 158.48835)">0 trainable</text>
+    <text style="font-size: 8px; font-family: 'DejaVu Sans'; fill: #4477aa" transform="translate(133.002605 167.4466)">backbone parameters</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 12px; font-family: 'DejaVu Sans'; text-anchor: middle; fill: #262626" x="378" y="24.288" transform="rotate(-0 378 24.288)">Frozen-Qwen joint-schema decision model</text>
+   </g>
+  </g>
+  <g id="text_11">
+   <text style="font-size: 8px; font-family: 'DejaVu Sans'; fill: #595959" transform="translate(30.24 238.29025)">Evidence routing: candidate queries cross-attend to request/context tokens. Joint-schema attention is bidirectional.</text>
+   <text style="font-size: 8px; font-family: 'DejaVu Sans'; fill: #595959" transform="translate(30.24 248.46425)">Head: 256D, 4 attention heads, 1 layer; no candidate-index embeddings. Qwen causal representations remain order-sensitive.</text>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p3c502a248a">
+   <rect x="15.12" y="36.288" width="725.76" height="165.888"/>
+  </clipPath>
+ </defs>
+</svg>
