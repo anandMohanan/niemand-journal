@@ -1,0 +1,96 @@
+{
+  "forms": 8,
+  "original_mean_f1": 0.1194744189290212,
+  "edited_mean_f1": 0.17026820246507784,
+  "f1_delta_95pct_paired_bootstrap": [
+    -0.13973793695864184,
+    0.21905776538013744
+  ],
+  "original_recovered": 16,
+  "edited_recovered": 30,
+  "fields": 114,
+  "rows": [
+    {
+      "id": "92298125",
+      "original_f1": 0.05185185185185185,
+      "edited_f1": 0.006030150753768844,
+      "original_recovered": 0,
+      "edited_recovered": 0,
+      "fields": 4,
+      "original_tokens": 7576,
+      "edited_tokens": 8192
+    },
+    {
+      "id": "81310636",
+      "original_f1": 0.06424581005586592,
+      "edited_f1": 0.3353658536585366,
+      "original_recovered": 5,
+      "edited_recovered": 6,
+      "fields": 9,
+      "original_tokens": 7626,
+      "edited_tokens": 1363
+    },
+    {
+      "id": "00920294",
+      "original_f1": 0.05919661733615221,
+      "edited_f1": 0.0775716694772344,
+      "original_recovered": 2,
+      "edited_recovered": 4,
+      "fields": 15,
+      "original_tokens": 7608,
+      "edited_tokens": 7616
+    },
+    {
+      "id": "91939637",
+      "original_f1": 0.01444043321299639,
+      "edited_f1": 0.4336283185840708,
+      "original_recovered": 2,
+      "edited_recovered": 3,
+      "fields": 6,
+      "original_tokens": 8192,
+      "edited_tokens": 4533
+    },
+    {
+      "id": "0060207528",
+      "original_f1": 0.44951140065146583,
+      "edited_f1": 0,
+      "original_recovered": 0,
+      "edited_recovered": 0,
+      "fields": 16,
+      "original_tokens": 154,
+      "edited_tokens": 8192
+    },
+    {
+      "id": "00838511_00838525",
+      "original_f1": 0.05430932703659976,
+      "edited_f1": 0.34838709677419355,
+      "original_recovered": 2,
+      "edited_recovered": 2,
+      "fields": 7,
+      "original_tokens": 7619,
+      "edited_tokens": 1215
+    },
+    {
+      "id": "0012602424",
+      "original_f1": 0.15734480639213277,
+      "edited_f1": 0.11195928753180662,
+      "original_recovered": 2,
+      "edited_recovered": 1,
+      "fields": 24,
+      "original_tokens": 8192,
+      "edited_tokens": 7627
+    },
+    {
+      "id": "91104867",
+      "original_f1": 0.10489510489510491,
+      "edited_f1": 0.04920324294101202,
+      "original_recovered": 3,
+      "edited_recovered": 14,
+      "fields": 33,
+      "original_tokens": 7634,
+      "edited_tokens": 8192
+    }
+  ],
+  "official_test_split_untouched": true,
+  "settings": "Both models use 3x4 tiling, greedy generation, 8192 new tokens. Only the attention output columns of head 6 in layer 14 differ."
+}
