@@ -111,7 +111,97 @@ I selected eight more forms from FUNSD's training split for independent validati
 
 Complete answer-text recovery rose from **16 to 30 out of 114**, or **14.0% to 26.3%**. That checks whether the answer appears anywhere in the transcript; it doesn't establish correct field association.
 
+```chart
+{
+  "type": "line",
+  "title": "The average hides very different pages",
+  "max": 50,
+  "labels": [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8"
+  ],
+  "series": [
+    {
+      "label": "Original weights",
+      "values": [
+        5.185185185185185,
+        6.424581005586592,
+        5.919661733615221,
+        1.444043321299639,
+        44.95114006514658,
+        5.430932703659976,
+        15.734480639213277,
+        10.489510489510492
+      ]
+    },
+    {
+      "label": "Edited weights",
+      "values": [
+        0.6030150753768844,
+        33.53658536585366,
+        7.75716694772344,
+        43.36283185840708,
+        0,
+        34.83870967741935,
+        11.195928753180661,
+        4.920324294101202
+      ]
+    }
+  ],
+  "note": "Text F1 (%) for each of the eight validation forms. Form numbers follow the fixed evaluation order, not time. Solid: original. Dashed: edited."
+}
+```
+
 The edit improved text F1 on four pages and reduced it on four others. One page fell from 44.95% to zero. Another improved from about 1.4% to 43.4%.
+
+```chart
+{
+  "type": "diverging",
+  "title": "Four improvements. Four regressions.",
+  "max": 50,
+  "rows": [
+    {
+      "label": "1",
+      "value": -4.582170109808301
+    },
+    {
+      "label": "2",
+      "value": 27.11200436026707
+    },
+    {
+      "label": "3",
+      "value": 1.837505214108219
+    },
+    {
+      "label": "4",
+      "value": 41.918788537107446
+    },
+    {
+      "label": "5",
+      "value": -44.95114006514658
+    },
+    {
+      "label": "6",
+      "value": 29.407776973759383
+    },
+    {
+      "label": "7",
+      "value": -4.538551886032616
+    },
+    {
+      "label": "8",
+      "value": -5.569186195409289
+    }
+  ],
+  "note": "Change in text F1, in percentage points. Left of zero is worse; right is better. The largest regression was \u221245.0 pp on form 5."
+}
+```
 
 The additional answer recovery was concentrated too: 11 of the net 14 extra recovered answers came from a single form.
 
@@ -138,5 +228,3 @@ I wouldn't use this edited model in a document-processing pipeline based on thes
 The next thing I'd investigate is why the same edit helps one page and breaks another. Does it depend on layout, text density, scan quality, or something about how the model uses earlier output? I don't have that answer yet.
 
 For now, I have a reproducible intervention and a set of failures to investigate. The early examples were more exciting than the final benchmark. I'm glad I ran the latter.
-
-*[Saved validation results](/images/document-weight-edit/results-snapshot.json). Figures use the saved experiment outputs; no inference was rerun for this post.*

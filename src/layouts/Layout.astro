@@ -271,6 +271,27 @@ const ogImage = `${Astro.site}og.svg`;
       .chart-detail, .chart-axis { color: var(--text-dim); font-size: .6875rem; }
       .chart-axis { display: flex; justify-content: space-between; font-variant-numeric: tabular-nums; }
       .content .native-chart .chart-note { color: var(--text-dim); font-size: .6875rem; line-height: 1.6; margin: 1rem 0 0; }
+      .chart-legend { display: flex; flex-wrap: wrap; gap: .65rem 1.5rem; color: var(--text-dim); font-size: .75rem; }
+      .chart-legend span { display: inline-flex; align-items: center; gap: .5rem; }
+      .chart-legend i { width: 22px; border-top: 2px solid var(--series-color); }
+      .chart-legend i.is-dashed { border-top-style: dashed; }
+      .line-plot { display: block; width: 100%; height: auto; margin-top: .5rem; overflow: visible; }
+      .line-plot text { fill: var(--text-dim); font-family: inherit; font-size: 12px; }
+      .plot-grid { stroke: var(--border); stroke-dasharray: 3 5; }
+      .line-plot circle:focus { outline: 2px solid var(--text); outline-offset: 4px; }
+      .chart-data { margin-top: 1rem; font-size: .6875rem; color: var(--text-dim); }
+      .chart-data summary { cursor: pointer; width: fit-content; padding: .3rem 0; }
+      .chart-data summary:hover { color: var(--text); }
+      .chart-table-wrap { overflow-x: auto; }
+      .chart-data table { width: 100%; font-variant-numeric: tabular-nums; }
+      .delta-axis { display: flex; justify-content: space-between; margin: 0 5.25rem .75rem 2.5rem; color: var(--text-dim); font-size: .6875rem; }
+      .content .delta-list .delta-row { display: grid; grid-template-columns: 2rem minmax(0,1fr) 4.75rem; align-items: center; gap: .5rem; margin: .65rem 0; }
+      .delta-track { position: relative; height: 16px; background: #151515; }
+      .delta-track::after { content: ''; position: absolute; top: -5px; bottom: -5px; left: 50%; width: 1px; background: var(--text-dim); opacity: .6; }
+      .delta-bar { position: absolute; height: 100%; background: #9ab7be; }
+      .delta-bar.is-negative { background: #c99470; }
+      .delta-value { text-align: right; font-size: .6875rem; font-variant-numeric: tabular-nums; color: #9ab7be; white-space: nowrap; }
+      .delta-value.is-negative { color: #c99470; }
 
       .content hr {
         border: none;
