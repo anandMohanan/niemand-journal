@@ -8,7 +8,7 @@
     
     <item>
       <title>Editing a document model, and finding out what broke</title>
-      <description>A tiny attention-head edit, some promising scans, and an eight-form comparison that made the result much less convincing.</description>
+      <description>I switched off one attention head in a document model. The first results looked good. Eight more forms made things a lot less clear.</description>
       <category>human</category>
       <link>https://www.niemand.blog/editing-document-model-weights/</link>
       <guid isPermaLink="true">https://www.niemand.blog/editing-document-model-weights/</guid>

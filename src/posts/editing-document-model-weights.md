@@ -2,40 +2,38 @@
 layout: ../layouts/Layout.astro
 title: "Editing a document model, and finding out what broke"
 date: "2026-11-08"
-excerpt: "A tiny attention-head edit, some promising scans, and an eight-form comparison that made the result much less convincing."
+excerpt: "I switched off one attention head in a document model. The first results looked good. Eight more forms made things a lot less clear."
 tag: "human"
 author: "Anand Mohanan"
 ---
 
-I wanted to spend the weekend trying something a little different with AI: use it to inspect another model and change the weights directly.
+I spent part of the weekend trying something a little different: getting AI to look inside another model and change its weights.
 
-Document parsing seemed like a useful place to start. It's something I'm planning to work on anyway, and scanned business forms give you plenty of ways to fail. Dates, addresses, faint text, awkward layouts. You can look at the page and check whether the output makes sense.
+I picked document parsing because I'm planning to work on it anyway. Scanned forms also make it pretty easy to see when something has gone wrong. You have the page in front of you. Did it read the address, or did it just write “Address” twenty times?
 
-The final result was mixed. On eight additional forms, the edit recovered more complete answer texts, but the average text score only moved from 11.9% to 17.0%. Some pages improved considerably. Others got worse, including one where the text score dropped from about 45% to zero.
+The first few results looked good. Then I tried more forms.
 
-So this is a write-up of the experiment, including the parts that didn't work.
+On eight additional pages, the average text F1 went from 11.9% to 17.0%. Four pages got better and four got worse. One went from about 45% to zero. So, a bit more complicated than the early examples made it look.
 
-## What I was trying to do
+## How I tried it
 
-The starting point was [weight-space programming](https://rikiyat.github.io/blog/weight-space-programming/): using an AI model to reason about and modify the parameters of another network. The published experiments include a repair to a small Qwen model that gets stuck in repetitive reasoning.
+I'd been reading about [weight-space programming](https://rikiyat.github.io/blog/weight-space-programming/), where an AI model reasons about another network and edits its parameters. One of the published experiments fixes a small Qwen model that gets stuck repeating itself.
 
-I wanted to see whether something similar could help a document parser.
+I wanted to try something similar with a document parser.
 
-I used Codex to inspect the model, write the experiment scripts, propose edits, and examine the outputs. The actual edits were applied to local tensors. There was no gradient descent, optimizer, or fine-tuning run. There was still a lot of evaluation: generating outputs, measuring them, rejecting edits, and trying another hypothesis.
+I used Codex to inspect the model, write scripts, suggest edits, and go through the outputs with me. The scripts changed the weight tensors directly. No fine-tuning, optimizer, or gradient descent.
 
-That distinction matters. This wasn't an AI looking at a few numbers and immediately understanding the entire model. It was an experimental loop, with plenty of failed guesses.
+There was still plenty of trial and error. Make an edit, run the model, look at what it produced, throw the edit away, try something else. Codex didn't just look at the weights and know what to fix.
 
-## The model and the forms
+## The model kept repeating itself
 
-I used IBM's [Granite-Docling-258M](https://huggingface.co/ibm-granite/granite-docling-258M), a small vision-language model for document conversion. It reads a page image and produces DocTags, a format containing text, document elements, and location information.
+I used IBM's [Granite-Docling-258M](https://huggingface.co/ibm-granite/granite-docling-258M). It's a small vision-language model that turns page images into DocTags: text, document elements, and their positions on the page.
 
-The machine was an M4 MacBook Air with 16 GB of memory. These runs used CPU inference in float32 because MPS wasn't available in the execution environment. A Mac was enough to run the experiment, although long, repetitive outputs made it slow. Running multiple model processes together also put pressure on memory, so I switched to one heavy run at a time.
+For the tricky pages, I used [FUNSD](https://guillaumejaume.github.io/FUNSD/), a dataset of scanned forms with annotated text and fields.
 
-For the difficult pages, I used [FUNSD](https://guillaumejaume.github.io/FUNSD/), a dataset of scanned forms with annotated text and fields.
+On the first four forms I used to try edits, the original model recovered 12 of 55 annotated answer texts. With the full output allowance, its average text F1 was 7.6%.
 
-On the first four development forms, the untouched model recovered 12 of 55 annotated answer texts. Its average text F1 was just 7.6% with the full output allowance.
-
-The failure was easy to spot. It would read a heading correctly, get partway down the page, then start producing things like:
+You could see the problem in the output. It would read a heading, get partway down the page, then do this:
 
 ```text
 Address:
@@ -44,35 +42,33 @@ Address:
 ...
 ```
 
-Sometimes the same text kept appearing with new coordinates. Eventually the coordinates would reach the bottom of the page and keep repeating too.
+Sometimes it kept writing the same text with different coordinates. Then the coordinates would reach the bottom of the page and start repeating too.
 
-## A shorter output wasn't necessarily a better output
+## The first few edits
 
-I tried changing the image-to-language connector, suppressing selected neurons, and removing directions associated with repetitive activity.
+I tried changing the image-to-language connector, suppressing selected neurons, and removing directions associated with repetitive activity. Most of it did nothing useful or made things worse.
 
-Most of these changes were ineffective or made the output worse.
+One small neuron edit looked promising when I stopped the output early. On one form, text F1 was around 35%. But when I let it keep going, it started repeating again and ended up at 13.9%.
 
-One gentler neuron edit looked encouraging in a short run. But when I let it generate for longer, it continued repeating, and the score fell substantially. On one form, the short-run text F1 was around 35%. At full length it was only 13.9%.
+That was still better than the original full-length score of 8.5%. Just nowhere near what the short run had suggested.
 
-That was still above the original full-length score of 8.5%, but it wasn't the improvement the shorter run had suggested.
+I had to compare runs with the same output allowance. Otherwise, stopping before the repetition kicked in could make an edit look much better than it was. Even with the same limit, I still needed to check whether it had actually finished reading the page.
 
-The extra output was mostly noise. Any comparison had to use the same output allowance, and even then I needed to inspect whether the model had actually finished reading the document.
+## One attention head looked promising
 
-## The most promising weight edit
+Next I tried disabling attention heads, one at a time. There were 270 of them. I checked whether each edit made the correct document text more likely, then ran normal generation for the promising ones.
 
-The strongest lead came from attention-head ablations. I tested all 270 attention heads individually, measuring whether disabling each one made the correct document text more likely. Then I tested promising candidates through normal generation.
+The papers on [repetition neurons](https://aclanthology.org/2025.naacl-short.41/) and [attention heads involved in visual hallucination](https://aclanthology.org/2026.acl-long.1941/) gave me things to try. I was adapting their ideas, not reproducing those experiments.
 
-This approach was informed by research on [repetition neurons](https://aclanthology.org/2025.naacl-short.41/) and [attention heads involved in visual hallucination](https://aclanthology.org/2026.acl-long.1941/). Our experiments were adaptations of those ideas, rather than replications of their results.
-
-The best candidate was head 6 in layer 14, using zero-based numbering. Disabling it meant zeroing 64 columns in its attention output projection:
+The best candidate was head 6 in layer 14, counting from zero. Disabling it meant zeroing 64 columns in the attention output projection:
 
 ```python
 model.model.text_model.layers[14].self_attn.o_proj.weight[:, 384:448] = 0
 ```
 
-That changed 36,864 weight values, roughly 0.014% of the model's parameters. The original checkpoint was preserved, and each candidate started from the original weights.
+That's 36,864 weight values, roughly 0.014% of the model. I kept the original checkpoint and started each candidate from those original weights.
 
-On two development forms, with an identical 2,048-token output limit, the result looked promising:
+On two of the forms I'd been working with, using the same 2,048-token limit:
 
 | Measurement | Original | Edited |
 | --- | ---: | ---: |
@@ -80,23 +76,23 @@ On two development forms, with an identical 2,048-token output limit, the result
 | Form B: text F1 | 2.9% | 34.7% |
 | Complete answer texts recovered | 1 / 32 | 5 / 32 |
 
-But both edited outputs still hit the short limit and contained errors or repetition. And these were forms used during development. They were useful for finding an edit, but couldn't tell me whether it would work elsewhere.
+This was the point where it started looking interesting. But both edited outputs still hit the limit and still had errors or repetition. I'd also used these forms to find the edit, so they couldn't tell me how it would do on other pages.
 
-Also, disabling a head and observing an improvement doesn't establish that the head is a dedicated “repetition circuit.” I had evidence that this intervention changed behavior, not a complete explanation of what the component does.
+And I couldn't call this a “repetition head” just because turning it off helped. I knew the edit changed the output. I didn't know exactly what that head was doing.
 
-## There was an input-processing issue too
+## The input mattered too
 
-While checking the setup, I noticed that the default image processor stretched these tall pages into a 4×4 tile grid. I tested a 3×4 grid that better preserved their shape.
+While checking the setup, I noticed the default image processor was stretching the tall pages into a 4×4 tile grid. I tried a 3×4 grid to keep their shape closer to the original.
 
-Changing the tiling helped some outputs even with the original weights. Combining it with the head edit made one development form finish naturally after 1,126 tokens, with a text F1 of 61.6% and four recovered answer texts.
+That helped some outputs without changing any weights. With the new tiling and the head edit together, one form finished on its own after 1,126 tokens. It reached 61.6% text F1 and recovered four answer texts.
 
-The second form was less convincing. The combined setup recovered two answers, while the tiling change alone recovered four.
+On the second form, though, the combined setup recovered two answers. Changing the tiling alone recovered four.
 
-This was another reason to keep the comparisons separate. An improvement caused by changing the input processing shouldn't be presented as a weight-editing result.
+So I needed to keep those changes separate. If better input processing was doing the work, I couldn't give the weight edit credit for it.
 
-## What happened on additional forms
+## Then I tried eight more forms
 
-I selected eight more forms from FUNSD's training split for independent validation. Both versions used the same 3×4 tiling, the same prompt, greedy generation, and an 8,192-token output allowance. The difference was the disabled attention head.
+I picked eight more forms from FUNSD's training split to check the edit. Both versions got the same 3×4 tiling, prompt, greedy generation, and 8,192-token allowance. The only difference was the disabled head.
 
 ```chart
 {
@@ -109,7 +105,7 @@ I selected eight more forms from FUNSD's training split for independent validati
 }
 ```
 
-Complete answer-text recovery rose from **16 to 30 out of 114**, or **14.0% to 26.3%**. That checks whether the answer appears anywhere in the transcript; it doesn't establish correct field association.
+Complete answer-text recovery went from **16 to 30 out of 114**, or **14.0% to 26.3%**. That means the answer appeared somewhere in the transcript. It doesn't mean the model put it under the right field.
 
 ```chart
 {
@@ -158,7 +154,7 @@ Complete answer-text recovery rose from **16 to 30 out of 114**, or **14.0% to 2
 }
 ```
 
-The edit improved text F1 on four pages and reduced it on four others. One page fell from 44.95% to zero. Another improved from about 1.4% to 43.4%.
+Four pages improved and four got worse. One dropped from 44.95% to zero. Another went from about 1.4% to 43.4%.
 
 ```chart
 {
@@ -203,28 +199,26 @@ The edit improved text F1 on four pages and reduced it on four others. One page 
 }
 ```
 
-The additional answer recovery was concentrated too: 11 of the net 14 extra recovered answers came from a single form.
+The extra answers were uneven too. Of the net 14 extra answers recovered, 11 came from one form.
 
-A paired bootstrap interval for the average F1 change ran from roughly **−14 to +22 percentage points**. With only eight pages and this much variation, that doesn't establish a reliable positive effect.
+The paired bootstrap interval for the average F1 change was roughly **−14 to +22 percentage points**. That's a wide range. Eight pages with results this mixed weren't enough for me to say the edit reliably helped.
 
-The official 50-form test split remains untouched.
+I haven't touched the official 50-form test split.
 
-## What the benchmark actually measures
+## A note on the scores
 
-There are two important limits to these numbers.
+Text F1 compares the recovered tokens with the annotated text. Extra words and repeated text hurt the score. It doesn't check layout or reading order.
 
-Text F1 compares the recovered tokens with the annotated text, penalizing extra and repeated tokens. It doesn't check layout or reading order.
+Answer-text recovery is simpler: does the complete annotated answer appear anywhere in the output? A name under the wrong heading can still count.
 
-Answer-text recovery checks whether a complete annotated answer appears anywhere in the output. If the model reads a person's name but puts it under the wrong heading, it can still count as recovered.
+These are my transcription checks using FUNSD's annotations, not the official FUNSD entity-and-relationship scores. Better numbers here wouldn't, on their own, mean I'd built a reliable field extractor.
 
-These are custom transcription measurements using FUNSD annotations. They aren't the official FUNSD entity-and-relationship scores, and they don't establish that the parser can reliably extract structured fields.
+## Where I left it
 
-## Where I landed
+Turning off a tiny part of the model made a big difference. Sometimes it read text it had missed before. Sometimes it broke a page it had been doing reasonably well on.
 
-A very small weight edit changed the model's behavior substantially. On some pages it recovered text that the original model missed. On another, it destroyed a relatively decent output.
+I wouldn't put this edited model into a document pipeline yet. The bad cases are too bad, and I've only checked eight additional forms.
 
-I wouldn't use this edited model in a document-processing pipeline based on these results. The regressions are too large, and the validation set is too small.
+What I want to figure out next is why the same edit helps one page and ruins another. Layout? Text density? Scan quality? Something about the model getting stuck on its earlier output? I don't know yet.
 
-The next thing I'd investigate is why the same edit helps one page and breaks another. Does it depend on layout, text density, scan quality, or something about how the model uses earlier output? I don't have that answer yet.
-
-For now, I have a reproducible intervention and a set of failures to investigate. The early examples were more exciting than the final benchmark. I'm glad I ran the latter.
+The first examples were more exciting than the results on the extra forms. I'm glad I checked those before calling it a fix.
