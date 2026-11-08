@@ -1,7 +1,8 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://niemand.journal',
+  trailingSlash: "always",
+  site: 'https://www.niemand.blog',
   markdown: {
     shikiConfig: {
       theme: 'github-dark',

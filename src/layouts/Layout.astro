@@ -1,4 +1,8 @@
 ---
+import "../styles/site.css";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
 export interface Props {
   title: string;
   date?: string;
@@ -8,23 +12,35 @@ export interface Props {
 }
 
 const { title, date, excerpt, type = 'article', author = 'Niemand' } = Astro.props;
-const canonicalURL = new URL(Astro.url.pathname, 'https://niemand.journal');
-const ogImage = `${Astro.site}og.svg`;
+const canonicalURL = new URL(Astro.url.pathname.replace(/\/?$/, '/'), 'https://www.niemand.blog');
+const ogImage = new URL('/og.png', Astro.site).href;
+const pageTitle = title === 'Niemand Journal' ? 'Niemand Journal | AI experiments & software notes' : `${title} | Niemand Journal`;
+const description = excerpt || 'Human and agent notes on AI, experiments, and building software.';
+const schema = {
+  '@context': 'https://schema.org', '@type': type === 'article' ? 'BlogPosting' : 'Blog',
+  '@id': canonicalURL.href, url: canonicalURL.href, name: title, description,
+  ...(type === 'article' ? { headline: title, datePublished: date, image: ogImage,
+    mainEntityOfPage: canonicalURL.href,
+    author: author === 'Anand Mohanan' ? { '@type': 'Person', '@id': 'https://anandmohanan.com/#person', name: author, url: 'https://anandmohanan.com/' } : { '@type': 'Organization', name: author, url: 'https://www.niemand.blog/' },
+    isPartOf: { '@type': 'Blog', name: 'Niemand Journal', url: 'https://www.niemand.blog/' }
+  } : { publisher: { '@type': 'Person', '@id': 'https://anandmohanan.com/#person', name: 'Anand Mohanan', url: 'https://anandmohanan.com/' } })
+};
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
+    <link rel="preload" href="/fonts/commit-mono-400.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title} — Niemand Journal</title>
-    <meta name="description" content={excerpt || `Journal entry by Niemand`} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     
     <!-- Open Graph -->
     <meta property="og:type" content={type} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={excerpt || `Journal entry by Niemand`} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:site_name" content="Niemand Journal" />
     <meta property="og:image" content={ogImage} />
@@ -35,8 +51,8 @@ const ogImage = `${Astro.site}og.svg`;
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={excerpt || `Journal entry by Niemand`} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
     
     <!-- SEO -->
@@ -48,6 +64,8 @@ const ogImage = `${Astro.site}og.svg`;
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title="Niemand Journal" href="/rss.xml" />
     
+    <script type="application/ld+json" set:html={JSON.stringify(schema).replace(/</g, "\u003c")} />
+    <script is:inline src="/toggle-theme.js"></script>
     <style is:global>
       * {
         margin: 0;
@@ -55,89 +73,17 @@ const ogImage = `${Astro.site}og.svg`;
         box-sizing: border-box;
       }
       
-      :root {
-        --bg: #0a0a0a;
-        --text: #e5e5e5;
-        --text-dim: #888;
-        --border: #222;
-        --accent: #fff;
-      }
-      
-      body {
-        font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Fira Code', monospace;
-        background: var(--bg);
-        color: var(--text);
-        line-height: 1.7;
-        min-height: 100vh;
-      }
-      
-      a {
-        color: var(--text);
-        text-decoration: underline;
-        text-decoration-color: var(--text-dim);
-        text-underline-offset: 3px;
-        transition: text-decoration-color 0.2s;
-      }
-      
-      a:hover {
-        text-decoration-color: var(--accent);
-      }
-      
-      .container {
-        max-width: 680px;
-        margin: 0 auto;
-        padding: 4rem 1.5rem;
-      }
-      
-      header {
-        margin-bottom: 4rem;
-        padding-bottom: 2rem;
-        border-bottom: 1px solid var(--border);
-      }
-      
-      .logo {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        color: var(--text-dim);
-        margin-bottom: 1rem;
-        display: block;
-      }
-      
-      .logo a {
-        text-decoration: none;
-        color: inherit;
-      }
-      
-      .nav {
-        display: flex;
-        gap: 2rem;
-        margin-top: 1.5rem;
-      }
-      
-      .nav a {
-        font-size: 0.875rem;
-        text-decoration: none;
-      }
-      
-      .nav a:hover {
-        text-decoration: underline;
-      }
-      
-      h1 {
-        font-size: 2rem;
-        font-weight: 600;
-        letter-spacing: -0.02em;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
-      }
-      
+      .container { width: 100%; max-width: 680px; margin: 0 auto; padding: 0 24px; }
+      h1 { font-size: 2rem; font-weight: 500; letter-spacing: -.025em; margin-bottom: .75rem; line-height: 1.3; }
+      .content { overflow-wrap: anywhere; }
+      .post-tag--human { color: var(--text); background: var(--bg); border-color: var(--border); }
+      .post-tag--agent { color: var(--text-dim); background: var(--bg); border-color: var(--border); }
       .meta {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         gap: .75rem;
-        font-size: 0.875rem;
+        font-size: 0.625rem;
         color: var(--text-dim);
         margin-bottom: 2.5rem;
       }
@@ -147,7 +93,7 @@ const ogImage = `${Astro.site}og.svg`;
         align-items: center;
         gap: .35rem;
         font-size: .75rem;
-        font-weight: 600;
+        font-weight: 500;
         line-height: 1.5;
         letter-spacing: .04em;
         border: 1px solid;
@@ -155,8 +101,8 @@ const ogImage = `${Astro.site}og.svg`;
         padding: .2rem .5rem;
       }
       .post-tag svg { flex-shrink: 0; }
-      .post-tag--human { color: #e7bd89; background: #261d13; border-color: #665034; }
-      .post-tag--agent { color: #a6cbd4; background: #142328; border-color: #395c66; }
+
+
 
       .content {
         font-size: 1rem;
@@ -164,13 +110,13 @@ const ogImage = `${Astro.site}og.svg`;
       
       .content h2 {
         font-size: 1.25rem;
-        font-weight: 600;
+        font-weight: 500;
         margin: 2.5rem 0 1rem;
       }
       
       .content h3 {
         font-size: 1.0625rem;
-        font-weight: 600;
+        font-weight: 500;
         margin: 2rem 0 0.75rem;
       }
       
@@ -249,7 +195,7 @@ const ogImage = `${Astro.site}og.svg`;
       }
       .native-chart figcaption {
         color: var(--text);
-        font-weight: 600;
+        font-weight: 500;
         margin-bottom: 1.5rem;
         line-height: 1.5;
       }
@@ -299,41 +245,12 @@ const ogImage = `${Astro.site}og.svg`;
         margin: 3rem 0;
       }
       
-      footer {
-        margin-top: 4rem;
-        padding-top: 2rem;
-        border-top: 1px solid var(--border);
-        font-size: 0.75rem;
-        color: var(--text-dim);
-      }
-      
-      @media (max-width: 640px) {
-        .container {
-          padding: 2.5rem 1.25rem;
-        }
-        
-        h1 {
-          font-size: 1.5rem;
-        }
-      }
+      @media (max-width: 640px) { h1 { font-size: 1.75rem; } }
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <span class="logo"><a href="/">NIEMAND JOURNAL</a></span>
-        <nav class="nav">
-          <a href="/">Journal</a>
-        </nav>
-      </header>
-      
-      <main>
-        <slot />
-      </main>
-      
-      <footer>
-        <p>© {new Date().getFullYear()} Niemand.</p>
-      </footer>
-    </div>
+    <SiteHeader area="journal" />
+    <main id="main-content" class="container"><slot /></main>
+    <SiteFooter />
   </body>
 </html>

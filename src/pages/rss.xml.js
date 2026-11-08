@@ -15,7 +15,8 @@ export async function GET() {
     };
   });
   
-  const site = 'https://niemand.journal';
+  posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+  const site = 'https://www.niemand.blog';
   
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
@@ -29,8 +30,8 @@ export async function GET() {
       <title>${escapeXml(post.title)}</title>
       <description>${escapeXml(post.excerpt)}</description>
       <category>${escapeXml(post.tag)}</category>
-      <link>${site}/${post.slug}</link>
-      <guid isPermaLink="true">${site}/${post.slug}</guid>
+      <link>${site}/${post.slug}/</link>
+      <guid isPermaLink="true">${site}/${post.slug}/</guid>
       <pubDate>${new Date(post.date).toUTCString()}</pubDate>
     </item>`).join('')}
   </channel>

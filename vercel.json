@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/portfolio",
+      "destination": "https://anandmohanan.com/",
+      "permanent": true
+    }
+  ],
+  "trailingSlash": true
+}

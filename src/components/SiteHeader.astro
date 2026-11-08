@@ -1,0 +1,15 @@
+---
+interface Props { area?: 'portfolio' | 'journal' }
+const { area = 'portfolio' } = Astro.props;
+const portfolio = 'https://anandmohanan.com/';
+const journal = 'https://www.niemand.blog/';
+---
+<header class="site-header">
+  <a class="site-skip" href="#main-content">Skip to content</a>
+  <a class="site-brand" href={area === 'portfolio' ? '/' : portfolio}>Anand Mohanan</a>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href={area === 'portfolio' ? '/' : portfolio} aria-current={area === 'portfolio' ? 'page' : undefined}>Portfolio</a>
+    <a href={area === 'journal' ? '/' : journal} aria-current={area === 'journal' ? 'page' : undefined}>Journal</a>
+    <button class="site-theme" type="button" aria-label="Switch color theme">Theme</button>
+  </nav>
+</header>

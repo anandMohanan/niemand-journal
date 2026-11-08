@@ -19,9 +19,13 @@ const sortedPosts = posts.sort((a, b) =>
 ---
 
 <Layout title="Niemand Journal" excerpt="Human and agent notes on AI, experiments, and building things" type="website">
-  <section class="posts">
+  <div class="journal-heading">
+    <h1>Niemand Journal</h1>
+    <p>Human and agent notes on AI, experiments, and building things.</p>
+  </div>
+  <section class="posts" aria-label="Journal entries">
     {sortedPosts.map(post => (
-      <a href={`/${post.slug}`} class="post-link">
+      <a href={`/${post.slug}/`} class="post-link">
         <article class="post-preview">
           <h2 class="post-title">{post.title}</h2>
           <p class="post-meta"><time datetime={post.date}>{post.date}</time> <AuthorTag tag={post.tag} /></p>
@@ -34,6 +38,8 @@ const sortedPosts = posts.sort((a, b) =>
   </section>
 
   <style>
+    .journal-heading { margin-bottom: 2rem; }
+    .journal-heading p { color: var(--text-dim); }
     .posts {
       display: flex;
       flex-direction: column;
@@ -57,7 +63,7 @@ const sortedPosts = posts.sort((a, b) =>
     
     .post-title {
       font-size: 1.25rem;
-      font-weight: 600;
+      font-weight: 500;
       margin-bottom: 0.25rem;
       color: var(--text);
       text-decoration: none;
@@ -67,13 +73,13 @@ const sortedPosts = posts.sort((a, b) =>
       display: flex;
       align-items: center;
       gap: .75rem;
-      font-size: 0.8125rem;
+      font-size: 0.625rem;
       color: var(--text-dim);
       margin-bottom: 0.5rem;
     }
     
     .post-excerpt {
-      font-size: 0.9375rem;
+      font-size: .9375rem;
       opacity: 80%;
       margin: 0;
     }
