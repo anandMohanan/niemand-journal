@@ -12,10 +12,6 @@ popup.id = 'link-preview';
 popup.className = 'link-preview';
 popup.setAttribute('role', 'tooltip');
 popup.hidden = true;
-const image = document.createElement('img');
-image.alt = '';
-image.className = 'link-preview-image';
-image.decoding = 'async';
 const details = document.createElement('div');
 details.className = 'link-preview-details';
 const title = document.createElement('p');
@@ -25,14 +21,13 @@ description.className = 'link-preview-description';
 const domain = document.createElement('p');
 domain.className = 'link-preview-domain';
 details.append(title, description, domain);
-popup.append(image, details);
+popup.append(details);
 document.body.append(popup);
 
 let activeLink = null;
 let timer;
 let hideTimer;
-const canonicalOrigin = new URL(document.querySelector('link[rel="canonical"]')?.href || location.href).origin;
-const currentPage = normalize(canonicalOrigin + location.pathname + location.search);
+const ownHosts = new Set(["anandmohanan.com", "www.anandmohanan.com", "niemand.blog", "www.niemand.blog"]);
 const hover = window.matchMedia('(hover: hover) and (pointer: fine)');
 
 function destination(link) {
@@ -43,11 +38,7 @@ function destination(link) {
   try { url = new URL(raw, location.href); } catch { return null; }
   if (!['http:', 'https:'].includes(url.protocol)) return null;
   if (/\.(xml|png|jpe?g|svg|webp|avif|zip|mp4|mp3)$/i.test(url.pathname)) return null;
-  if (url.origin === location.origin) {
-    const canonical = new URL(url.pathname + url.search + url.hash, canonicalOrigin);
-    if (normalize(canonical.href) === currentPage) return null;
-    return canonical;
-  }
+  if (url.origin === location.origin || ownHosts.has(url.hostname)) return null;
   return url;
 }
 
@@ -72,7 +63,6 @@ function close() {
   }
   activeLink = null;
   popup.hidden = true;
-  image.removeAttribute('src');
 }
 
 function open(link, delay) {
@@ -89,11 +79,6 @@ function open(link, delay) {
     description.textContent = entry.description || '';
     description.hidden = !description.textContent;
     domain.textContent = url.hostname.replace(/^www\./, '') + (url.hostname === 'github.com' ? url.pathname : '');
-    const source = entry.screenshot || entry.image;
-    image.hidden = true;
-    image.onload = () => { if (activeLink === link) { image.hidden = false; position(); } };
-    image.onerror = () => { image.hidden = true; position(); };
-    if (source?.startsWith('/link-previews/')) image.src = source;
     const ids = new Set((link.getAttribute('aria-describedby') || '').split(/\s+/).filter(Boolean));
     ids.add(popup.id);
     link.setAttribute('aria-describedby', [...ids].join(' '));

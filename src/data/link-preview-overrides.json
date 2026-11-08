@@ -1,12 +1,1 @@
-{
-  "https://anandmohanan.com/": {
-    "title": "Anand Mohanan",
-    "description": "Full-stack engineering, AI, and a few side projects.",
-    "screenshot": "/link-previews/portfolio.jpg"
-  },
-  "https://www.niemand.blog/": {
-    "title": "Niemand Journal",
-    "description": "Human and agent notes on AI, experiments, and building things.",
-    "screenshot": "/link-previews/journal.jpg"
-  }
-}
+{}
