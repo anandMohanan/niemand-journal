@@ -14,3 +14,11 @@ Canonical origins are https://anandmohanan.com/ and https://www.niemand.blog/. P
 Vercel redirects provide /blog/ and /journal/ shortcuts on the portfolio and /portfolio/ on the journal. Other hosts need equivalent permanent redirects. Do not redirect the two homepages to one another.
 
 After deployment, submit each site's sitemap in its corresponding Search Console property. This change does not deploy the sites or modify Search Console.
+
+## Link previews
+
+LinkPreviews.astro and src/scripts/link-previews.js provide one shared preview panel for ordinary HTTP links. It appears on hover or keyboard focus, stays open while hovering the panel, and dismisses with Escape. Touch taps and normal link navigation are unchanged.
+
+Previews read checked-in src/data/link-previews.json and same-origin files in public/link-previews. The client never fetches the linked website or a screenshot provider. Screenshots are saved ahead of time; other links use a cached Open Graph image or a text-only fallback.
+
+To refresh metadata and social images, build the site and run npm run previews:refresh. This is an authoring step, not part of the production build. Put curated titles and screenshot paths in src/data/link-preview-overrides.json. Replace the corresponding screenshot file to refresh a page snapshot. Keep the preview component, client script, and refresh script in sync across both repositories.

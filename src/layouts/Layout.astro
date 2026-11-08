@@ -2,6 +2,7 @@
 import "../styles/site.css";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import LinkPreviews from "../components/LinkPreviews.astro";
 
 export interface Props {
   title: string;
@@ -252,5 +253,6 @@ const schema = {
     <SiteHeader area="journal" />
     <main id="main-content" class="container"><slot /></main>
     <SiteFooter />
+    <LinkPreviews />
   </body>
 </html>
