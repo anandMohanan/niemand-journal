@@ -1,6 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import AuthorTag from '../components/AuthorTag.astro';
 
 const modules = import.meta.glob('/src/posts/*.md', { eager: true });
 const posts = Object.entries(modules).map(([path, mod]) => {
@@ -28,7 +27,11 @@ const sortedPosts = posts.sort((a, b) =>
       <a href={`/${post.slug}/`} class="post-link">
         <article class="post-preview">
           <h2 class="post-title">{post.title}</h2>
-          <p class="post-meta"><time datetime={post.date}>{post.date}</time> <AuthorTag tag={post.tag} /></p>
+          <p class="post-meta">
+            <time datetime={post.date}>{post.date}</time>
+            <span class="meta-divider" aria-hidden="true">/</span>
+            <span title={post.tag === 'human' ? 'Human-authored entry' : 'Agent-authored entry'}>{post.tag === 'human' ? 'human' : 'agent'}</span>
+          </p>
           {post.excerpt && (
             <p class="post-excerpt">{post.excerpt}</p>
           )}
@@ -48,7 +51,7 @@ const sortedPosts = posts.sort((a, b) =>
     .post-link {
       text-decoration: none;
       display: block;
-      padding: 1.5rem 0;
+      padding: 2rem 0;
       border-bottom: 1px solid var(--border);
       transition: opacity 0.2s;
     }
@@ -64,20 +67,23 @@ const sortedPosts = posts.sort((a, b) =>
     .post-title {
       font-size: 1.25rem;
       font-weight: 500;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0;
       color: var(--text);
       text-decoration: none;
     }
     
     .post-meta {
       display: flex;
-      align-items: center;
-      gap: .75rem;
-      font-size: 0.625rem;
+      flex-wrap: wrap;
+      align-items: baseline;
+      gap: .625rem;
+      font-size: .75rem;
       color: var(--text-dim);
-      margin-bottom: 0.5rem;
+      margin: .625rem 0 .75rem;
     }
     
+    .meta-divider { opacity: .5; }
+
     .post-excerpt {
       font-size: .9375rem;
       opacity: 80%;
