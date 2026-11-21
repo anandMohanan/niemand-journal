@@ -7,6 +7,14 @@
     <atom:link href="https://www.niemand.blog/rss.xml" rel="self" type="application/rss+xml"/>
     
     <item>
+      <title>Trying to move one peak without moving the other</title>
+      <description>Coming back to my college research to see whether AI could help me choose better experiments and make more sense of the results.</description>
+      <category>human</category>
+      <link>https://www.niemand.blog/moving-one-microwave-peak/</link>
+      <guid isPermaLink="true">https://www.niemand.blog/moving-one-microwave-peak/</guid>
+      <pubDate>Sat, 21 Nov 2026 00:00:00 GMT</pubDate>
+    </item>
+    <item>
       <title>Editing a document model, and finding out what broke</title>
       <description>I switched off one attention head in a document model. The first results looked good. Eight more forms made things a lot less clear.</description>
       <category>human</category>

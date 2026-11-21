@@ -33,16 +33,20 @@ function renderLineChart(chart) {
   const max = chart.max ?? 100;
   if (!chart.title || !Array.isArray(labels) || labels.length < 2 || !Array.isArray(series) || !series.length || !Number.isFinite(max) || max <= 0) throw new Error('Invalid line chart');
   const colors = ['#9ab7be', '#c99470'];
-  const x = i => 48 + i * 504 / (labels.length - 1);
+  const positions = chart.xValues ?? labels.map((_, i) => i);
+  if (!Array.isArray(positions) || positions.length !== labels.length || positions.some((v, i) => !Number.isFinite(v) || (i > 0 && v <= positions[i - 1]))) throw new Error('Invalid line x coordinates');
+  const ticks = chart.tickIndices ?? labels.map((_, i) => i);
+  if (!Array.isArray(ticks) || ticks.some(i => !Number.isInteger(i) || i < 0 || i >= labels.length)) throw new Error('Invalid line tick indices');
+  const x = i => 48 + (positions[i] - positions[0]) * 504 / (positions.at(-1) - positions[0]);
   const y = v => 234 - v / max * 194;
   const grid = [0, max / 2, max].map(v => `<line x1="48" x2="552" y1="${y(v)}" y2="${y(v)}" class="plot-grid"/><text x="38" y="${y(v) + 4}" text-anchor="end">${v}%</text>`).join('');
   const lines = series.map((s, index) => {
     if (!Array.isArray(s.values) || s.values.length !== labels.length || s.values.some(v => !Number.isFinite(v) || v < 0 || v > max)) throw new Error('Invalid line series');
     const color = colors[index % colors.length];
-    return `<polyline points="${s.values.map((v, i) => `${x(i)},${y(v)}`).join(' ')}" fill="none" stroke="${color}" stroke-width="2.5" ${index % 2 ? 'stroke-dasharray="6 5"' : ''}/>${s.values.map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${color}" tabindex="0" role="img" aria-label="${escape(`${labels[i]}, ${s.label}: ${v.toFixed(1)}%`)}"><title>${escape(`${labels[i]} · ${s.label}: ${v.toFixed(1)}%`)}</title></circle>`).join('')}`;
+    return `<polyline points="${s.values.map((v, i) => `${x(i)},${y(v)}`).join(' ')}" fill="none" stroke="${color}" stroke-width="2.5" ${index % 2 ? 'stroke-dasharray="6 5"' : ''}/>${(chart.showPoints === false ? [] : s.values).map((v, i) => `<circle cx="${x(i)}" cy="${y(v)}" r="4.5" fill="${color}" tabindex="0" role="img" aria-label="${escape(`${labels[i]}, ${s.label}: ${v.toFixed(1)}%`)}"><title>${escape(`${labels[i]} · ${s.label}: ${v.toFixed(1)}%`)}</title></circle>`).join('')}`;
   }).join('');
   const legend = series.map((s, i) => `<span><i style="--series-color:${colors[i % colors.length]}" class="${i % 2 ? 'is-dashed' : ''}"></i>${escape(s.label)}</span>`).join('');
-  return `<figure class="native-chart native-chart--line"><figcaption>${escape(chart.title)}</figcaption><div class="chart-legend">${legend}</div><svg class="line-plot" viewBox="0 0 600 280" role="img" aria-label="${escape(chart.title)}"><title>${escape(chart.title)}</title>${grid}${lines}${labels.map((label, i) => `<text x="${x(i)}" y="258" text-anchor="middle">${escape(label)}</text>`).join('')}</svg>${chart.note ? `<p class="chart-note">${escape(chart.note)}</p>` : ''}${dataTable(['Form', ...series.map(s => s.label)], labels.map((l, i) => [l, ...series.map(s => `${s.values[i].toFixed(2)}%`)]))}</figure>`;
+  return `<figure class="native-chart native-chart--line"><figcaption>${escape(chart.title)}</figcaption><div class="chart-legend">${legend}</div><svg class="line-plot" viewBox="0 0 600 ${chart.xLabel ? 300 : 280}" role="img" aria-label="${escape(chart.title)}"><title>${escape(chart.title)}</title>${grid}${lines}${ticks.map(i => `<text x="${x(i)}" y="258" text-anchor="middle">${escape(labels[i])}</text>`).join('')}${chart.xLabel ? `<text x="300" y="284" text-anchor="middle">${escape(chart.xLabel)}</text>` : ''}</svg>${chart.note ? `<p class="chart-note">${escape(chart.note)}</p>` : ''}${dataTable([chart.xLabel ?? 'Form', ...series.map(s => s.label)], labels.map((l, i) => [l, ...series.map(s => `${s.values[i].toFixed(2)}%`)]))}</figure>`;
 }
 
 function renderDeltaChart(chart) {
