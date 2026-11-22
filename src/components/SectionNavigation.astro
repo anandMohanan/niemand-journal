@@ -1,0 +1,109 @@
+---
+interface Props {
+  sections: { id: string; label: string }[];
+}
+
+const { sections } = Astro.props;
+const links = [{ id: 'entry-start', label: 'Start of article' }, ...sections];
+---
+
+<nav class="section-nav" aria-label="Article sections" data-section-nav>
+  {links.map(({ id, label }) => (
+    <a href={`#${encodeURIComponent(id)}`} aria-current={id === 'entry-start' ? 'location' : undefined}>
+      <span class="section-label">{label}</span>
+    </a>
+  ))}
+</nav>
+
+<script>
+  const nav = document.querySelector('[data-section-nav]');
+  if (nav) {
+    const links = Array.from(nav.querySelectorAll('a'));
+    const headings = links.map(link => document.getElementById(decodeURIComponent(link.hash.slice(1))));
+    let active = 0;
+    let frame = 0;
+
+    function updateCurrentSection() {
+      frame = 0;
+      const readingLine = Math.min(100, window.innerHeight / 4);
+      let current = 0;
+      for (let index = 1; index < headings.length; index++) {
+        const heading = headings[index];
+        if (heading && heading.getBoundingClientRect().top <= readingLine) current = index;
+      }
+
+      const last = headings.at(-1);
+      const page = document.documentElement;
+      const atBottom = window.scrollY > 0 && page.scrollHeight - page.clientHeight - window.scrollY <= 2;
+      if (atBottom && last && last.getBoundingClientRect().top < window.innerHeight) {
+        current = headings.length - 1;
+      }
+
+      if (current === active) return;
+      links[active].removeAttribute('aria-current');
+      links[current].setAttribute('aria-current', 'location');
+      active = current;
+    }
+
+    function scheduleUpdate() {
+      if (!frame) frame = requestAnimationFrame(updateCurrentSection);
+    }
+
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
+    window.addEventListener('resize', scheduleUpdate);
+    window.addEventListener('pageshow', scheduleUpdate);
+    scheduleUpdate();
+  }
+</script>
+
+<style>
+  .section-nav {
+    position: fixed;
+    top: 50%;
+    inset-inline-end: max(0px, calc((100vw - 680px) / 2 - 2rem));
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+
+  .section-nav a {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: clamp(24px, 4dvh, 32px);
+    text-decoration: none;
+  }
+
+  .section-nav a::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border: 1px solid var(--text-dim);
+    border-radius: 50%;
+    background: var(--bg);
+  }
+
+  .section-nav a:is([aria-current], :hover, :focus-visible)::before {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  .section-nav a:focus-visible { outline-offset: -2px; }
+
+  .section-label {
+    position: absolute;
+    inset-inline-end: 100%;
+    width: max-content;
+    max-width: min(16rem, 80vw);
+    padding: .25rem .5rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg);
+    font-size: .8125rem;
+    line-height: 1.4;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .section-nav a:is(:hover, :focus-visible) .section-label { opacity: 1; }
+</style>

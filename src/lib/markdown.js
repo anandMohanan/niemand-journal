@@ -62,13 +62,32 @@ function renderDeltaChart(chart) {
   return `<figure class="native-chart"><figcaption>${escape(chart.title)}</figcaption><div class="delta-axis" aria-hidden="true"><span>−${max} pp</span><span>0</span><span>+${max} pp</span></div><ol class="delta-list">${rows}</ol>${chart.note ? `<p class="chart-note">${escape(chart.note)}</p>` : ''}${dataTable(['Form', 'Change in text F1'], chart.rows.map(r => [r.label, `${r.value > 0 ? '+' : ''}${r.value.toFixed(2)} pp`]))}</figure>`;
 }
 
-const markdown = new Marked({
-  renderer: {
-    code(token) {
-      if (token.lang === 'chart') return renderChart(token.text);
-      return false;
-    },
-  },
-});
+export async function renderMarkdown(source) {
+  const sections = [];
+  const usedIds = new Set();
+  const markdown = new Marked({
+    renderer: {
+      code(token) {
+        if (token.lang === 'chart') return renderChart(token.text);
+        return false;
+      },
+      heading(token) {
+        if (token.depth !== 2) return false;
 
-export const renderMarkdown = (source) => markdown.parse(source);
+        const label = this.parser.parseInline(token.tokens, this.parser.textRenderer).trim();
+        if (!label) return false;
+
+        const slug = label.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, '-').replace(/^-|-$/g, '');
+        const baseId = `section-${slug || 'heading'}`;
+        let id = baseId;
+        for (let suffix = 2; usedIds.has(id); suffix++) id = `${baseId}-${suffix}`;
+        usedIds.add(id);
+        sections.push({ id, label });
+
+        return `<h2 id="${id}">${this.parser.parseInline(token.tokens)}</h2>\n`;
+      },
+    },
+  });
+
+  return { html: await markdown.parse(source), sections };
+}
